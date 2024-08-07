@@ -148,14 +148,16 @@
         }
     </style>
     <script>
-        document.querySelector(".list-item.list-item1").addEventListener((e) => {
-            window.open('https://www.nate.com/', '_blank');
-        });
-        document.querySelector(".list-item.list-item1").addEventListener((e) => {
-            window.open('https://www.daum.net/', '_blank');
-        });
-        document.querySelector(".list-item.list-item1").addEventListener((e) => {
-            window.open('https://www.naver.com/', '_blank');
+        document.addEventListener("DOMContentLoaded", (e) => {
+            document.querySelector(".list-item.list-item1").addEventListener("click", (e) => {
+                window.open('https://www.nate.com/', '_blank');
+            });
+            document.querySelector(".list-item.list-item1").addEventListener("click", (e) => {
+                window.open('https://www.daum.net/', '_blank');
+            });
+            document.querySelector(".list-item.list-item1").addEventListener("click", (e) => {
+                window.open('https://www.naver.com/', '_blank');
+            });
         });
     </script>
 </head>
