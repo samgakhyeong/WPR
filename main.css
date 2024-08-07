@@ -1,0 +1,26 @@
+#header {
+    min-height: 200px;
+    background-color: aqua;
+}
+
+#main {
+    min-height: 200px;
+    background-color: cadetblue;
+}
+
+#main .content .element .title {
+    display: block;
+}
+
+#main .content .element .title {
+    display: block;
+}
+
+#main .content .element p:last-child {
+    border: 0 !important;
+}
+
+#footer {
+    min-height: 200px;
+    background-color: darkkhaki;
+}
