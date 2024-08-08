@@ -15,6 +15,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
         .then((response) => response.json())
         .then((json) => {
             gJson = json;
+
             const params = new URLSearchParams(window.location.search);
             if (params.size > 0) {
                 dJson = filterData(gJson, params.get("q"));
@@ -35,6 +36,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
             history.pushState({ "query": query }, '', url);
 
             dJson = filterData(gJson, query);
+            sortData(dJson);
             renderJSON(dJson);
         }
     });
@@ -49,6 +51,7 @@ window.addEventListener("popstate", (event) => {
     } else if (event.state) {
         query.value = event.state.query;
         dJson = filterData(gJson, event.state.query);
+        sortData(dJson);
         renderJSON(dJson);
     }
 });
@@ -60,19 +63,34 @@ function filterData(data, query) {
     });
 }
 
+function sortData(data) {
+    data.sort((a, b) => {
+        if (a.like > b.like) return -1;
+        if (a.like < b.like) return 1;
+        return 0;
+    });
+}
+
 function renderJSON(json) {
-    console.log("renderJSON, json.length : " + json.length);
     let content = document.querySelector("#main .content");
+
     content.replaceChildren();
+    sortData(json);
     json.forEach(e => {
-        content.appendChild(createElement(e));
+        let a = createElement(e);
+        content.appendChild(a);
     });
 }
 
 function createElement(json) {
     //create root element
-    let rootElement = document.createElement("div");
-    rootElement.classList.add(...["element", "border", "border-dark", "rounded", "m-3"]);
+
+    let rootElement = craeteDivElementWithClass(["element", "border", "border-dark", "rounded", "m-3"]);
+    rootElement.dataset.id = json.id;
+    rootElement.addEventListener("click", (e) => {
+        let data = gJson.find((e) => e.id == rootElement.dataset.id)
+        window.localStorage.setItem("lastClickedItemData", JSON.stringify(data));
+    });
 
     let elementRow1 = document.createElement("div");
     elementRow1.classList.add(...["row", "m-1", "text-center", "border-bottom", "border-dark"]);
@@ -88,16 +106,20 @@ function createElement(json) {
     elementRow1.appendChild(createChildElement("p", ["price", "col"], json.price));
     elementRow1.appendChild(createChildElement("p", ["like", "col"], json.like));
 
-
     elementRow2.appendChild(createChildElement("p", ["image", "col"], json.image));
     elementRow3.appendChild(createChildElement("p", ["cooking_method", "col"], json.cooking_method));
-
 
     rootElement.appendChild(elementRow1);
     rootElement.appendChild(elementRow2);
     rootElement.appendChild(elementRow3);
 
     return rootElement;
+}
+
+function craeteDivElementWithClass(className) {
+    let element = document.createElement("div");
+    element.classList.add(...className);
+    return element;
 }
 
 function createChildElement(tag, className, conetent) {

@@ -12,6 +12,10 @@
     border: 0 !important;
 }
 
+#main .content .element {
+    cursor: pointer;
+}
+
 #footer {
     min-height: 200px;
     background-color: darkkhaki;
