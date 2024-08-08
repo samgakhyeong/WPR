@@ -71,24 +71,40 @@ function renderJSON(json) {
 
 function createElement(json) {
     //create root element
-    let element = document.createElement("div");
-    element.classList.add(...["element", "border", "border-dark", "rounded", "m-3"]);
+    let rootElement = document.createElement("div");
+    rootElement.classList.add(...["element", "border", "border-dark", "rounded", "m-3"]);
 
-    element.appendChild(createChildElement("p", "title", json.title));
-    element.appendChild(createChildElement("p", "category", json.category));
-    element.appendChild(createChildElement("p", "image", json.image));
-    element.appendChild(createChildElement("p", "cooking_method", json.cooking_method));
-    element.appendChild(createChildElement("p", "price", json.price));
+    let elementRow1 = document.createElement("div");
+    elementRow1.classList.add(...["row", "m-1", "text-center", "border-bottom", "border-dark"]);
 
-    return element;
+    let elementRow2 = document.createElement("div");
+    elementRow2.classList.add(...["row", "m-1", "text-center", "border-bottom", "border-dark"]);
+
+    let elementRow3 = document.createElement("div");
+    elementRow3.classList.add(...["row", "m-1", "text-center", "border-bottom", "border-dark"]);
+
+    elementRow1.appendChild(createChildElement("p", ["title", "col"], json.title));
+    elementRow1.appendChild(createChildElement("p", ["category", "col"], json.category));
+    elementRow1.appendChild(createChildElement("p", ["price", "col"], json.price));
+    elementRow1.appendChild(createChildElement("p", ["like", "col"], json.like));
+
+
+    elementRow2.appendChild(createChildElement("p", ["image", "col"], json.image));
+    elementRow3.appendChild(createChildElement("p", ["cooking_method", "col"], json.cooking_method));
+
+
+    rootElement.appendChild(elementRow1);
+    rootElement.appendChild(elementRow2);
+    rootElement.appendChild(elementRow3);
+
+    return rootElement;
 }
 
 function createChildElement(tag, className, conetent) {
 
     //create element
     let elementTitle = document.createElement(tag);
-    elementTitle.classList.add(className);
-    elementTitle.classList.add(...["m-1", "text-center", "border-bottom", "border-dark"]);
+    elementTitle.classList.add(...className);
     //create textNode
     let contentTitleNode = document.createTextNode(conetent);
     elementTitle.appendChild(contentTitleNode);

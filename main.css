@@ -8,15 +8,7 @@
     background-color: cadetblue;
 }
 
-#main .content .element .title {
-    display: block;
-}
-
-#main .content .element .title {
-    display: block;
-}
-
-#main .content .element p:last-child {
+#main .content .element .row:last-child {
     border: 0 !important;
 }
 
