@@ -108,7 +108,6 @@ function createElement(json) {
 
     elementRow2.appendChild(createChildElement("p", ["image", "col"], json.image));
     elementRow3.appendChild(createChildElement("p", ["cooking_method", "col"], json.cooking_method));
-
     rootElement.appendChild(elementRow1);
     rootElement.appendChild(elementRow2);
     rootElement.appendChild(elementRow3);
@@ -122,13 +121,13 @@ function craeteDivElementWithClass(className) {
     return element;
 }
 
-function createChildElement(tag, className, conetent) {
+function createChildElement(tag, className, content) {
 
     //create element
     let elementTitle = document.createElement(tag);
     elementTitle.classList.add(...className);
     //create textNode
-    let contentTitleNode = document.createTextNode(conetent);
+    let contentTitleNode = document.createTextNode(content);
     elementTitle.appendChild(contentTitleNode);
 
     return elementTitle;
