@@ -90,6 +90,11 @@ function createElement(json) {
     rootElement.addEventListener("click", (e) => {
         let data = originalJson.find((e) => e.id == rootElement.dataset.id)
         window.localStorage.setItem("lastClickedItemData", JSON.stringify(data));
+
+        let url = new URL(window.location);
+
+        url.pathname = "/"
+
     });
 
     let elementRow1 = document.createElement("div");
