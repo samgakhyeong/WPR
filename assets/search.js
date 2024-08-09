@@ -13,13 +13,13 @@ window.addEventListener("DOMContentLoaded", (e) => {
     })
         .then((response) => response.json())
         .then((json) => {
-            originalJson = json;
+            json = json;
 
             const params = new URLSearchParams(window.location.search);
             if (params.size > 0) {
-                renderJson = filterData(originalJson, params.get("q"));
+                renderJson = filterData(json, params.get("q"));
             } else {
-                renderJson = [...originalJson];
+                renderJson = [...json];
             }
             renderJSON(renderJson);
         });
@@ -34,7 +34,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
             console.log("searchParams: " + query);
             history.pushState({ "query": query }, '', url);
 
-            renderJson = filterData(originalJson, query);
+            renderJson = filterData(json, query);
             sortData(renderJson);
             renderJSON(renderJson);
         }
@@ -46,10 +46,10 @@ window.addEventListener("popstate", (event) => {
     //first page
     if (event.state === null) {
         query.value = "";
-        renderJSON(originalJson);
+        renderJSON(json);
     } else if (event.state) {
         query.value = event.state.query;
-        renderJson = filterData(originalJson, event.state.query);
+        renderJson = filterData(json, event.state.query);
         sortData(renderJson);
         renderJSON(renderJson);
     }
@@ -87,12 +87,10 @@ function createElement(json) {
     let rootElement = craeteDivElementWithClass(["element", "border", "border-dark", "rounded", "m-3"]);
     rootElement.dataset.id = json.id;
     rootElement.addEventListener("click", (e) => {
-        let data = originalJson.find((e) => e.id == rootElement.dataset.id)
-        window.localStorage.setItem("lastClickedItemData", JSON.stringify(data));
-
+        window.localStorage.setItem("lastClickedItemData", JSON.stringify(json));
         let url = new URL(window.location);
         url.pathname = "/item.html";
-        url.searchParams.set("id", data.id);
+        url.searchParams.set("id", json.id);
         window.location.href = url.href;
     });
 
