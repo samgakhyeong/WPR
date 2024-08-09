@@ -2,7 +2,6 @@ let originalJson = null;
 let renderJson = null;
 
 window.addEventListener("DOMContentLoaded", (e) => {
-
     fetch("./assets/data.json", {
         method: 'GET',
         headers: {
@@ -12,30 +11,32 @@ window.addEventListener("DOMContentLoaded", (e) => {
         },
     })
         .then((response) => response.json())
-        .then((json) => {
-            json = json;
+        .then((responseJson) => {
+            originalJson = responseJson;
+            let url = new URL(window.location);
+            let search = url.searchParams.get('q');
+            document.querySelector("#main #form input").value = search;
 
-            const params = new URLSearchParams(window.location.search);
-            if (params.size > 0) {
-                renderJson = filterData(json, params.get("q"));
+            if (search.size > 0) {
+                renderJson = filterData(originalJson, search.get("q"));
             } else {
-                renderJson = [...json];
+                renderJson = [...originalJson];
             }
             renderJSON(renderJson);
         });
 
     document.querySelector("#main #form").addEventListener("submit", (e) => {
         e.preventDefault();
+
         let query = document.querySelector("#main #form input").value;
         let url = new URL(window.location);
+        let search = url.searchParams.get('q');
 
-        if (url.searchParams.get('q') !== query) {
+        if (search !== query) {
             url.searchParams.set('q', query);
-            console.log("searchParams: " + query);
             history.pushState({ "query": query }, '', url);
 
-            renderJson = filterData(json, query);
-            sortData(renderJson);
+            renderJson = filterData(originalJson, query);
             renderJSON(renderJson);
         }
     });
@@ -46,11 +47,10 @@ window.addEventListener("popstate", (event) => {
     //first page
     if (event.state === null) {
         query.value = "";
-        renderJSON(json);
+        renderJSON(originalJson);
     } else if (event.state) {
         query.value = event.state.query;
-        renderJson = filterData(json, event.state.query);
-        sortData(renderJson);
+        renderJson = filterData(originalJson, event.state.query);
         renderJSON(renderJson);
     }
 });
@@ -71,6 +71,8 @@ function sortData(data) {
 }
 
 function renderJSON(json) {
+
+    console.log("renderJSON, DataCount = " + json.length);
     let content = document.querySelector("#main .content");
 
     content.replaceChildren();

@@ -3,47 +3,60 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
     let rootElement = document.querySelector("#main .content");
 
-    let row1Element = document.createElement("div");
-    row1Element.classList.add(...["row"]);
 
     {
-        let dataElement = document.createElement("div");
-        dataElement.classList.add(...["col", "text-center"]);
-        dataElement.innerText = json.title;
+        //title
+        //div[class=row]
+        let rowElement = document.createElement("div");
+        rowElement.classList.add(...["row"]);
+        //h1[class=col]
+        let dataElement = document.createElement("h1");
+        dataElement.classList.add(...["col", "text-center", "m-2"]);
 
-        row1Element.appendChild(dataElement);
+        dataElement.innerText = json.title;
+        rowElement.appendChild(dataElement);
+        rootElement.appendChild(rowElement);
     }
 
-    let row2Element = document.createElement("div");
-    row1Element.classList.add(...["row"]);
-
     {
+        //cooking_method
+        //div[class=row]
+        let rowElement = document.createElement("div");
+        rowElement.classList.add(...["row"]);
+        //div[class=col]
         let dataElement = document.createElement("div");
         dataElement.classList.add(...["col", "text-center"]);
         dataElement.innerText = json.cooking_method;
-        row2Element.appendChild(dataElement);
+        rowElement.appendChild(dataElement);
+        rootElement.appendChild(rowElement);
     }
 
-    let row3Element = document.createElement("div");
-    row3Element.classList.add(...["row"]);
-
     {
+        //div[class=row]
+        let rowElement = document.createElement("div");
+        rowElement.classList.add(...["row"]);
+
+        //div[class=col]
         let colElement = document.createElement("div");
         colElement.classList.add(...["col", "text-center", "d-flex", "justify-content-center"]);
 
+        //table
         let elementTable = document.createElement("table");
-        elementTable.classList.add(...["table", "table-striped", "border", "border-dark"]);
+        elementTable.classList.add(...["table", "table-striped", "border", "border-dark", "m-3"]);
+        //thead
         {
             let elementThead = document.createElement("thead");
             let elementTr = document.createElement("tr");
 
             {
+                //th
                 let elementTh = document.createElement("th");
                 elementTh.appendChild(document.createTextNode("이름"));
                 elementTr.appendChild(elementTh);
             }
 
             {
+                //th
                 let elementTh = document.createElement("th");
                 elementTh.appendChild(document.createTextNode("용량"));
                 elementTr.appendChild(elementTh);
@@ -54,12 +67,15 @@ window.addEventListener("DOMContentLoaded", (e) => {
         }
 
         {
+            //tbody
             let elementTbody = document.createElement("tbody");
             elementTable.appendChild(elementTbody);
             json.materials.forEach(e => {
+                //tr
                 let elementTr = document.createElement("tr");
 
                 {
+                    //td
                     let elementTd = document.createElement("td");
                     let key = Object.keys(e)[0];
                     elementTd.innerText = key;
@@ -67,6 +83,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
                 }
 
                 {
+                    //td
                     let elementTd = document.createElement("td");
                     let values = Object.values(e)[0];
                     elementTd.innerText = values;
@@ -75,12 +92,46 @@ window.addEventListener("DOMContentLoaded", (e) => {
 
                 elementTbody.appendChild(elementTr);
             });
+            colElement.appendChild(elementTable);
+            rowElement.appendChild(colElement);
+            rootElement.appendChild(rowElement);
         }
-        colElement.appendChild(elementTable);
-        row3Element.appendChild(colElement);
     }
+    {
+        {
+            //div[class=row]
+            let rowElement = document.createElement("div");
+            rowElement.classList.add(...["row"]);
+            {
+                //div[class=col]
+                let colElement = document.createElement("div");
+                colElement.classList.add(...["col", "text-center", "m-2"]);
+                colElement.appendChild(document.createTextNode(json.price));
+                rowElement.appendChild(colElement);
+            }
+            {
+                //div[class=col]
+                let colElement = document.createElement("div");
+                colElement.classList.add(...["col", "text-center", "m-2"]);
+                colElement.appendChild(document.createTextNode(json.like));
+                rowElement.appendChild(colElement);
+            }
+            {
+                //div[class=col]
+                let colElement = document.createElement("div");
+                colElement.classList.add(...["col", "text-center", "m-2"]);
+                colElement.appendChild(document.createTextNode(json.category));
+                rowElement.appendChild(colElement);
+            }
+            {
+                //div[class=col]
+                let colElement = document.createElement("div");
+                colElement.classList.add(...["col", "text-center", "m-2"]);
+                colElement.appendChild(document.createTextNode(json.image));
+                rowElement.appendChild(colElement);
+            }
+            rootElement.appendChild(rowElement);
 
-    rootElement.appendChild(row1Element);
-    rootElement.appendChild(row2Element);
-    rootElement.appendChild(row3Element);
+        }
+    }
 });
