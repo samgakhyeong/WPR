@@ -1,6 +1,6 @@
 
-let gJson = undefined;
-let dJson = undefined;
+let originalJson = undefined;
+let renderJson = undefined;
 
 window.addEventListener("DOMContentLoaded", (e) => {
 
@@ -14,15 +14,15 @@ window.addEventListener("DOMContentLoaded", (e) => {
     })
         .then((response) => response.json())
         .then((json) => {
-            gJson = json;
+            originalJson = json;
 
             const params = new URLSearchParams(window.location.search);
             if (params.size > 0) {
-                dJson = filterData(gJson, params.get("q"));
+                renderJson = filterData(originalJson, params.get("q"));
             } else {
-                dJson = [...gJson];
+                renderJson = [...originalJson];
             }
-            renderJSON(dJson);
+            renderJSON(renderJson);
         });
 
     document.querySelector("#main #form").addEventListener("submit", (e) => {
@@ -35,9 +35,9 @@ window.addEventListener("DOMContentLoaded", (e) => {
             console.log("searchParams: " + query);
             history.pushState({ "query": query }, '', url);
 
-            dJson = filterData(gJson, query);
-            sortData(dJson);
-            renderJSON(dJson);
+            renderJson = filterData(originalJson, query);
+            sortData(renderJson);
+            renderJSON(renderJson);
         }
     });
 });
@@ -47,12 +47,12 @@ window.addEventListener("popstate", (event) => {
     //first page
     if (event.state === null) {
         query.value = "";
-        renderJSON(gJson);
+        renderJSON(originalJson);
     } else if (event.state) {
         query.value = event.state.query;
-        dJson = filterData(gJson, event.state.query);
-        sortData(dJson);
-        renderJSON(dJson);
+        renderJson = filterData(originalJson, event.state.query);
+        sortData(renderJson);
+        renderJSON(renderJson);
     }
 });
 
@@ -88,7 +88,7 @@ function createElement(json) {
     let rootElement = craeteDivElementWithClass(["element", "border", "border-dark", "rounded", "m-3"]);
     rootElement.dataset.id = json.id;
     rootElement.addEventListener("click", (e) => {
-        let data = gJson.find((e) => e.id == rootElement.dataset.id)
+        let data = originalJson.find((e) => e.id == rootElement.dataset.id)
         window.localStorage.setItem("lastClickedItemData", JSON.stringify(data));
     });
 
