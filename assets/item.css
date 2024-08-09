@@ -1,7 +1,0 @@
-#main .content .element .row:last-child {
-    border: 0 !important;
-}
-
-#main .content .element {
-    cursor: pointer;
-}
