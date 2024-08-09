@@ -1,6 +1,5 @@
-
-let originalJson = undefined;
-let renderJson = undefined;
+let originalJson = null;
+let renderJson = null;
 
 window.addEventListener("DOMContentLoaded", (e) => {
 
