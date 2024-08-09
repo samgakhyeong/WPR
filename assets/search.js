@@ -92,9 +92,9 @@ function createElement(json) {
         window.localStorage.setItem("lastClickedItemData", JSON.stringify(data));
 
         let url = new URL(window.location);
-
-        url.pathname = "/"
-
+        url.pathname = "/item.html";
+        url.searchParams.set("id", data.id);
+        window.location.href = url.href;
     });
 
     let elementRow1 = document.createElement("div");
